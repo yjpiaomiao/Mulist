@@ -1,0 +1,11 @@
+/* Hand-written replacement for TagLib's CMake-generated taglib_config.h. */
+#ifndef TAGLIB_TAGLIB_CONFIG_H
+#define TAGLIB_TAGLIB_CONFIG_H
+#define TAGLIB_WITH_APE 1
+#define TAGLIB_WITH_ASF 1
+#define TAGLIB_WITH_DSF 1
+#define TAGLIB_WITH_MP4 1
+#define TAGLIB_WITH_RIFF 1
+#define TAGLIB_WITH_TRUEAUDIO 1
+#define TAGLIB_WITH_VORBIS 1
+#endif

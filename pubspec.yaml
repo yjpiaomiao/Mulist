@@ -1,0 +1,31 @@
+name: music_manager
+description: "Mulist — a local music library, metadata and playlist manager."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.5
+
+dependencies:
+  characters: ^1.4.1
+  collection: ^1.19.1
+  ffi: ^2.2.0
+  file_selector: ^1.1.0
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  mm_native:
+    path: packages/mm_native
+  path: ^1.9.1
+  path_provider: ^2.1.6
+  sqlite3: ^3.7.0
+  unorm_dart: ^0.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
