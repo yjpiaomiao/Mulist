@@ -8,6 +8,8 @@ Mulist 保留以下第三方源码、数据及许可证，便于构建、测试�
 | utfcpp | https://github.com/nemtrif/utfcpp | `packages/mm_native/third_party/utfcpp/LICENSE`，Boost Software License 1.0 |
 | stb_image、stb_image_resize2、stb_image_write | https://github.com/nothings/stb | 相应头文件末尾的 MIT / public domain 许可文本 |
 | pinyin-data v0.15.0 | https://github.com/mozillazg/pinyin-data | `tool/data/LICENSE.pinyin-data`，MIT；源数据为 `tool/data/pinyin.txt` |
+| media_kit / media_kit_libs_audio | https://github.com/media-kit/media-kit | Dart / Flutter 包为 MIT；版本固定在 `pubspec.lock`，许可证通过 Flutter 许可注册表提供 |
+| libmpv 与 FFmpeg 音频库 | https://github.com/media-kit/libmpv-darwin-build · https://mpv.io/ · https://ffmpeg.org/ | 由 media_kit 原生包获取并以动态 framework 打包；各二进制组件许可证以其上游构建配置和发行资料为准，正式分发需一并提供相应许可与源码获取说明 |
 
 `packages/mm_native/third_party/` 中的源码和许可证需一并保留。TagLib 并非未经修改的上游副本，具体差异已记录在 `PATCHES.md`。
 

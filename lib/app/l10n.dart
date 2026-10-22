@@ -9,6 +9,46 @@ class S {
 
   String _(String zhText, String en) => zh ? zhText : en;
 
+  // playback
+  String get play => _('播放', 'Play');
+  String get pause => _('暂停', 'Pause');
+  String get previousTrack => _('上一首', 'Previous');
+  String get nextTrack => _('下一首', 'Next');
+  String get stopPlayback => _('停止播放', 'Stop');
+  String get nowPlaying => _('正在播放', 'Now playing');
+  String get chooseToPlay => _('选择一首音乐，开始聆听', 'Choose a track to start listening');
+  String get playHint => _('双击曲目播放 · 空格暂停', 'Double-click to play · Space to pause');
+  String get queue => _('播放队列', 'Play queue');
+  String get shuffle => _('随机播放', 'Shuffle');
+  String get repeatOff => _('顺序播放', 'Repeat off');
+  String get repeatAll => _('列表循环', 'Repeat all');
+  String get repeatOne => _('单曲循环', 'Repeat one');
+  String get volume => _('音量', 'Volume');
+  String get outputSettings => _('音频输出', 'Audio output');
+  String get sourceAudio => _('源文件', 'Source');
+  String get actualOutput => _('引擎输出', 'Engine output');
+  String get waitingOutput => _('播放后显示实际输出参数', 'Output parameters appear during playback');
+  String get sharedOutput => _('标准输出', 'Shared output');
+  String get exclusiveOutput => _('跟随音源 · 独占输出', 'Follow source · Exclusive output');
+  String get exclusiveHint => _(
+    '尝试按音源规格打开音频设备，并保持应用音量为 100%。设备将由本程序独占，可能暂停其他应用的声音。',
+    'Requests the source format with app volume fixed at 100%. Takes exclusive device access and may silence other apps.',
+  );
+  String get qualityHint => _(
+    '直接解码原文件，不做有损转码、均衡或响度归一化。最终采样率、位深与声道受输出设备支持范围限制；蓝牙及系统混音可能转换音频。DSD 解码为 PCM，不承诺 DSD 直通或逐位一致。',
+    'Decodes the original file without lossy transcoding, EQ or normalization. Final sample rate, bit depth and channels depend on the device; Bluetooth and the system mixer may convert audio. DSD is decoded to PCM; DSD passthrough and bit-perfect output are not guaranteed.',
+  );
+  String get outputDevice => _('输出设备', 'Output device');
+  String get systemDefault => _('系统默认', 'System default');
+  String get outputMismatch => _('设备输出与音源采样率不同', 'Output sample rate differs from the source');
+  String get exclusiveVolume =>
+      _('独占模式固定 100% 音量，请使用设备控制音量', 'Exclusive mode uses 100% app volume; use device volume controls');
+  String get playbackFailed =>
+      _('无法播放此文件，请检查文件权限、格式或输出设备。', 'Unable to play. Check file access, format or output device.');
+  String get playbackPathUnavailable =>
+      _('文件已移除或此存储位置暂不支持播放。', 'The file was removed or this storage location does not support playback.');
+  String get seekPlayback => _('播放进度', 'Seek');
+
   // navigation
   String get appName => 'Mulist';
   String get library => _('曲库', 'Library');

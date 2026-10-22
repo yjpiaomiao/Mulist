@@ -55,6 +55,14 @@ class LibraryToolbar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
       child: Row(
         children: [
+          if (!compact) ...[
+            FilledButton.tonalIcon(
+              onPressed: app.view.isEmpty ? null : () => app.playTrack(app.view.first),
+              icon: const Icon(Icons.play_arrow_rounded, size: 20),
+              label: Text(s.play),
+            ),
+            const SizedBox(width: 12),
+          ],
           Expanded(
             child: TextField(
               focusNode: searchFocus,
@@ -307,7 +315,7 @@ class _TrackTableState extends State<TrackTable> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => handleTrackTap(context, id, selectionMode: false),
-      onDoubleTap: () => editTags(context, app.selection.contains(id) ? app.selectedInOrder() : [id]),
+      onDoubleTap: () => app.playTrack(id),
       onSecondaryTapDown: (d) {
         if (!app.selection.contains(id)) {
           app.selection.only(id);
@@ -324,7 +332,15 @@ class _TrackTableState extends State<TrackTable> {
           for (final c in _columns)
             _cell(
                 c,
-                c.sort == SortField.title && dim
+                c == _columns.first
+                    ? ListenableBuilder(
+                        listenable: app.playback,
+                        builder: (context, _) => app.playback.current?.id == id
+                            ? Icon(app.playback.playing ? Icons.graphic_eq_rounded : Icons.pause_rounded,
+                                size: 16, color: scheme.primary)
+                            : Text(c.text(r), maxLines: 1, textAlign: c.align, style: style),
+                      )
+                    : c.sort == SortField.title && dim
                     ? Row(children: [
                         Icon(r.status == TrackStatus.missing ? Icons.link_off : Icons.error_outline, size: 14, color: scheme.error),
                         const SizedBox(width: 4),
@@ -412,8 +428,11 @@ class TrackListMobile extends StatelessWidget {
                         ]),
                       ),
                       const SizedBox(width: 8),
-                      Text(r.durationMs > 0 ? formatDuration(r.durationMs) : '',
-                          style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
+                      IconButton(
+                        tooltip: S.of(context).play,
+                        onPressed: () => app.playTrack(id),
+                        icon: const Icon(Icons.play_circle_outline_rounded),
+                      ),
                     ]),
                   ),
                 );
@@ -474,7 +493,7 @@ class TrackGrid extends StatelessWidget {
                   }
                 },
                 onLongPress: onLongPress == null ? null : () => onLongPress!(id),
-                onDoubleTap: compact ? null : () => editTags(context, [id]),
+                onDoubleTap: () => app.playTrack(id),
                 onSecondaryTapDown: (d) {
                   if (!app.selection.contains(id)) app.selection.only(id);
                   showTrackMenu(context, d.globalPosition, app.selectedInOrder());

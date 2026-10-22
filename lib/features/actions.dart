@@ -163,6 +163,8 @@ List<PopupMenuEntry<void Function()>> trackMenu(BuildContext context, List<int> 
   PopupMenuItem<void Function()> item(IconData icon, String text, void Function() f, {bool enabled = true}) =>
       PopupMenuItem(value: f, enabled: enabled, height: 36, child: Row(children: [Icon(icon, size: 18), const SizedBox(width: 12), Text(text)]));
   return [
+    item(Icons.play_arrow_rounded, s.play, () => AppScope.read(context).playSelection(ids), enabled: ids.isNotEmpty),
+    const PopupMenuDivider(),
     item(Icons.edit_outlined, s.editTags, () => editTags(context, ids)),
     item(Icons.drive_file_rename_outline, s.renameFiles, () => renameFiles(context, ids)),
     item(Icons.playlist_add, s.addToPlaylist, () => addToPlaylist(context, ids)),

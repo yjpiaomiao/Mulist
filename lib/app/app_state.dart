@@ -11,6 +11,8 @@ import 'package:path_provider/path_provider.dart';
 
 import '../core/model/library_root.dart';
 import '../core/model/track.dart';
+import '../core/playback/playback_controller.dart';
+import '../core/playback/mpv_audio_engine.dart';
 import '../core/scan/scanner.dart';
 import '../core/search/search_index.dart';
 import '../core/search/search_isolate.dart';
@@ -140,6 +142,28 @@ class Selection extends ChangeNotifier {
 }
 
 class AppState extends ChangeNotifier {
+  late final PlaybackController playback;
+  AppState({PlaybackController? playback}) {
+    this.playback = playback ?? PlaybackController(
+      createEngine: MpvAudioEngine.new,
+      resolvePath: (id) => core.call<String?>('physicalPath', id),
+    );
+  }
+
+  Future<void> playTrack(int id) {
+    final tracks = [
+      for (final key in view)
+        if (rows[key] != null && rows[key]!.status != TrackStatus.missing) rows[key]!,
+    ];
+    final start = tracks.indexWhere((t) => t.id == id);
+    return start < 0 ? Future.value() : playback.playTracks(tracks, start: start);
+  }
+
+  Future<void> playSelection(List<int> ids) => playback.playTracks([
+    for (final id in ids)
+      if (rows[id] != null) rows[id]!,
+  ]);
+
   late final CoreClient core;
   late final SearchClient search;
   late final CorePaths paths;
@@ -459,6 +483,7 @@ class AppState extends ChangeNotifier {
 
   @override
   void dispose() {
+    playback.dispose();
     for (final h in _scanHandles.values) {
       h.cancel();
     }

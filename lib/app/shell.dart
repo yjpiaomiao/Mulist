@@ -13,6 +13,7 @@ import '../features/detail/detail_panel.dart';
 import '../features/history/history_page.dart';
 import '../features/library/library_view.dart';
 import '../features/playlist/playlist_actions.dart';
+import '../features/player/player_bar.dart';
 import '../features/settings/settings_page.dart';
 import 'app_state.dart';
 import 'l10n.dart';
@@ -160,8 +161,20 @@ class _AppShellState extends State<AppShell> {
       k(LogicalKeyboardKey.keyE): () => editTags(context, app.selectedInOrder()),
       const SingleActivator(LogicalKeyboardKey.f2): () => renameFiles(context, app.selectedInOrder()),
       const SingleActivator(LogicalKeyboardKey.space): () {
+        if (!typing()) {
+          if (app.playback.current != null) {
+            app.playback.toggle();
+          } else if (app.view.isNotEmpty) {
+            app.playTrack(app.focused ?? app.view.first);
+          }
+        }
+      },
+      k(LogicalKeyboardKey.keyI): () {
         if (!typing()) app.setSetting('detailPanel', app.setting('detailPanel') == 'true' ? 'false' : 'true');
       },
+      const SingleActivator(LogicalKeyboardKey.mediaPlayPause): () => app.playback.toggle(),
+      const SingleActivator(LogicalKeyboardKey.mediaTrackNext): () => app.playback.next(),
+      const SingleActivator(LogicalKeyboardKey.mediaTrackPrevious): () => app.playback.previous(),
       const SingleActivator(LogicalKeyboardKey.delete): () {
         if (!typing()) removeFromLibrary(context, app.selectedInOrder());
       },
@@ -185,7 +198,7 @@ class _AppShellState extends State<AppShell> {
         if (!typing()) _moveFocus(-1, extend: true);
       },
       const SingleActivator(LogicalKeyboardKey.enter): () {
-        if (!typing() && app.selection.length > 0) editTags(context, app.selectedInOrder());
+        if (!typing() && app.selection.length > 0) app.playTrack(app.selectedInOrder().first);
       },
     };
   }
@@ -295,6 +308,7 @@ class _AppShellState extends State<AppShell> {
                 ),
               ),
               const _StatusBar(),
+              const PlayerBar(),
             ],
           ),
           endDrawer: rail
@@ -423,7 +437,7 @@ class _AppShellState extends State<AppShell> {
         }
       },
       child: Scaffold(
-        body: page,
+        body: Column(children: [Expanded(child: page), const PlayerBar()]),
         bottomNavigationBar: selecting
             ? null
             : NavigationBar(
